@@ -1,0 +1,144 @@
+% --------------------------------------------------------------
+% This is all preamble stuff that you don't have to worry about.
+% Head down to where it says "Start here"
+% --------------------------------------------------------------
+ 
+\documentclass[12pt]{article}
+ 
+\usepackage[margin=1in]{geometry} 
+\usepackage{amsmath,amsthm,amssymb}
+ 
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+ 
+\newenvironment{theorem}[2][Theorem]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+
+\newenvironment{lemma}[2][Lemma]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+
+\newenvironment{exercise}[2][Exercise]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+
+\newenvironment{problem}[2][Problem]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2}]}{\end{trivlist}}
+
+\newenvironment{question}[2][Question]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+
+\newenvironment{corollary}[2][Corollary]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+
+\usepackage{graphicx}
+\graphicspath{{./}}
+
+\begin{document}
+ 
+% --------------------------------------------------------------
+%                         Start here
+% --------------------------------------------------------------
+ 
+\title{Homework 2}%replace X with the appropriate number
+\author{Yunzhong He\\ %replace with your name
+204010749} %if necessary, replace with your course title
+ 
+\maketitle
+ 
+\begin{problem}{1. Naive Bayers}
+\item{a.}
+\begin{align*}
+  P(Y=1|X) &= \frac{P(X|Y=1)P(Y=1)}{P(X|Y=1)P(Y=1) + P(X|Y=0)P(Y=0)}
+            = \frac{\Pi_i N(\mu_{i1}, \sigma_i)\pi}{\Pi_i N(\mu_{i1}, \sigma_1)\pi + \Pi_i N(\mu_{i0}, \sigma_0)(1-\pi)} \\
+			&= \frac{1}{1+\frac{1-\pi}{\pi} \cdot \frac{N(\mu_{i1}, 2\sigma_i)}{N(\mu_{i1}, 2\sigma_i)}}
+		    = \frac{1}{1+C \cdot e^{-(\Sigma_i \frac{(x_i-\mu_{i1})^2}{2\sigma_i} - \Sigma_i \frac{(x_i-\mu_{i0})^2}{2\sigma_i}}} 
+		    = \frac{1}{1+C \cdot e^{-(\Sigma_i \frac{(\mu_{i0}-\mu_{i1})x_i}{\sigma_i} - \Sigma_i \frac{\mu_{i1}^2 - mu_{i0}^2}{2\sigma_i}) }} \\ 
+			&= \frac{1}{1+e^{-(\Sigma_i \frac{(\mu_{i0}-\mu_{i1})x_i}{\sigma_i} + \Sigma_i \frac{\mu_{i1}^2 - \mu_{i0}^2}{2\sigma_i}) + lnC }} = \frac{1}{exp(-w_0 + w^T X)}
+\end{align*}
+where C = -($\frac{1-\pi}{\pi}), w = 2(\frac{\mu_{01}-\mu_{00}}{\sigma_0}, \frac{\mu_{11}-\mu_{10}}{\sigma_1}, \dots, \frac{\mu_{D1}-\mu_{D0}}{\sigma_D}), 
+w_0 = \Sigma_i \frac{\mu_{i1}^2-\mu_{i0}^2}{2\sigma_i} + lnC$
+
+\item{b.}
+For training data D, we have
+\begin{align*}
+  -logP(D)&= -(\sum_nlog\pi_yn + \sum_{n,k}z_{nk}log\theta_{y_nk}) \\
+  &= -(a\cdot log\pi + b\cdot log(1-\pi) + \sum_{n}logN(\mu_{n0}, \theta_n) + \sum_{n}logN(\mu_{n1}, \theta_n))
+\end{align*}
+where a = number of items where y=1, b = number of items where y=0\\\\
+Let $f_1(\pi) = a\cdot log\pi + b\cdot log(1-\pi)$, solving $\frac{df_1}{d\pi} = 0, $ we have $\pi = \frac{a}{a+b}$\\\\
+Let $f_2 = \sum_{n}logN(\mu_{n0}, \theta_n) + \sum_{n}logN(\mu_{n1}, \theta_n)
+= 2\cdot \sum_n log(\frac{1}{\sigma_n\sqrt{2\pi}}) + \sum_n\frac{-(x-\mu_{n1})^2}{\sigma_n^2} + \sum_n\frac{-(x-\mu_{n0})^2}{\sigma_n^2}$\\\\
+Solving $\frac{\partial f_2}{\partial \mu_{jk}} = 0$ we have $\mu_{jk} = \frac{\sum_{i}^{z_k} x_i}{z_k}$ where $z_k$ is the number of items labeled k\\\\
+Solving $\frac{\partial f_2}{\partial \sigma_j} = 0$ we have $\sigma_j^2 = \frac{(x_j-\mu_j)^2}{n}$
+\end{problem}
+
+
+\begin{problem}{2. Logistic Regression}
+\item{a.} 
+\begin{align*}
+  \mathbb{L}(w) &= -log(P(x|y, w)) = -log\prod_n(1-S(w^Tx_n))^{1-y_n} \cdot S(w^Tx_n)^{y_n})\\
+&= -\sum_n (log(1-S(w^Tx_n))\cdot(1-y_n) + logS(w^Tx_n)\cdot y_n)
+\end{align*}
+\item{b.}
+Since
+\begin{align*}
+  \frac{\partial^2 L(w)}{\partial^2 w_i} = -\sum_n -\frac{x_i^2e^{w^Tx}}{(e^{w^Tx}+1)^2} \geq 0
+\end{align*}
+Therefore L(w) is convex on every direction, so it is convex.
+\item{c.}
+  When $x\in \mathbb{R}^2$, and  $y_1$, $y_2$ can be best separated by the y-axis, the slope of the line that separates $y_1$ and $y_2$ will be infinitely large, and thus the magnitude of \textbf{w} goes to infinity.
+\item{d.}
+  $\nabla\mathbb{L}(w) = \sum_n(\sigma(w^Tw)-y_n)x_n + 2\lambda w$
+\item{e.}
+  Since we have showed that the log likelihood function is convex, and we know that any local minimum of it is a global minimum, therefore it has a unique solution.
+\end{problem}
+
+\begin{problem}{3. Decision Trees}
+\item{a.}
+Since the number of observations when traffic is high and accident rate is low, or when traffic is low and when accident rate is high are 0, H(accident rate|traffic) = 0. Therefore choosing traffic as the fisrt split feature always maximizez the information gain.
+\item{b.}
+For categorical features, they are already normalized into binary vectors and cannot be further normalized. For continutous features, changing the mean and variance will not affect the points on two sides of the boundry, so it will not affect then entropy.
+\item{c.}
+  Take the difference we have $d = -\sum_{k=1}^Kp_klogp_k - \sum_{k=1}^Kp_k(1-p_k) = -\sum_{k=1}^Kp_k(logp_k-(p_k-1))$\\
+  Since for f(x) = logx, g(x) = x-1 we have $f(x) \leq g(x) \ \forall x \in [0, 1]$, we know $d \geq 0$, and thus Gini index is always smaller than or equal to the cross-entropy.
+\end{problem}
+
+\begin{problem}{4. Comparing Classifiers in Octave}
+\item{a.}
+The code for naive bayes classifier can be found in naive\_bayes.m.
+\item{b.\\}
+\textbf{kNN}: Running kNN with different ks we have 0.8767 test accuracy and 0.899 training accuracy with k = 9.\\
+\textbf{Naive Bayes:} Running Naive Bayes Classification with 'car\_train.data' and 'car\_valid.data' we obtained 0.888 accuracy on training data, and 0.853 accuracy on valid data.\\
+\textbf{Decision Tree:\\}
+The accuracies for decision tree using different parameters can be found below.\\
+Gini Index\\
+minLeaf   train     valid     test\\
+1.0000    0.9705    0.9460    0.9512\\
+2.0000    0.9705    0.9460    0.9512\\
+3.0000    0.9684    0.9357    0.9460\\
+4.0000    0.9632    0.9280    0.9357\\
+5.0000    0.9600    0.9229    0.9383\\
+6.0000    0.9537    0.9383    0.9229\\
+7.0000    0.9453    0.9280    0.9100\\
+8.0000    0.9411    0.9254    0.9126  \\
+9.0000    0.9305    0.9229    0.9075\\
+10.0000   0.9274    0.9049     0.9075\\
+\\
+Cross Entropy\\
+minLeaf   train     valid     test\\
+1.0000    0.9663    0.9280    0.9512\\
+2.0000    0.9663    0.9280    0.9512\\
+3.0000    0.9642    0.9177    0.9460\\
+4.0000    0.9642    0.9177    0.9460\\
+5.0000    0.9642    0.9177    0.9460\\
+6.0000    0.9621    0.9306    0.9383\\
+7.0000    0.9516    0.9254    0.9254\\
+8.0000    0.9442    0.9177    0.9229\\
+9.0000    0.9337    0.9203    0.9100\\
+10.0000    0.9284    0.9023    0.9152\\
+\textbf{Logistic Regression:} With logistic regression, we achieved 0.853 accuracy on training data, 0.802 accuracy on valid data and 0.843 accuracy on test data. 
+\end{problem}
+% --------------------------------------------------------------
+%     You don't have to mess with anything below this line.
+% --------------------------------------------------------------
+ 
+\end{document}
