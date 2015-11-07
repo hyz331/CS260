@@ -1,0 +1,173 @@
+% --------------------------------------------------------------
+% This is all preamble stuff that you don't have to worry about.
+% Head down to where it says "Start here"
+% --------------------------------------------------------------
+ 
+\documentclass[12pt]{article}
+ 
+\usepackage[margin=1in]{geometry} 
+\usepackage{amsmath,amsthm,amssymb}
+ 
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+ 
+\newenvironment{theorem}[2][Theorem]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+
+\newenvironment{lemma}[2][Lemma]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+
+\newenvironment{exercise}[2][Exercise]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+
+\newenvironment{problem}[2][Problem]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2}]}{\end{trivlist}}
+
+\newenvironment{question}[2][Question]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+
+\newenvironment{corollary}[2][Corollary]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+
+\usepackage{graphicx}
+\graphicspath{{./}}
+
+\begin{document}
+ 
+% --------------------------------------------------------------
+%                         Start here
+% --------------------------------------------------------------
+ 
+\title{Homework 4}%replace X with the appropriate number
+\author{Yunzhong He\\ %replace with your name
+204010749} %if necessary, replace with your course title
+ 
+\maketitle
+ 
+\begin{problem}{1. Liner Regression with Heterogenous Noise}
+\item{a.}
+Assume independent Gaussian distribution of $\epsilon_n$, the log likelihood density is given by
+\begin{align*}
+		logp(D|\beta, \sigma) &= log\prod_iP(x_i, y_i| \beta, \sigma) = log\prod N(0, \sigma_i)(\epsilon_i) \\
+		&= log\prod_i \frac{1}{\sigma_i^2 \sqrt{2\pi}} \cdot exp(\sum \frac{-\epsilon^2}{2\sigma_i^2}) = -\sum_i(\frac{\epsilon_i^2}{2\sigma_i^2}-log\frac{1}{2\sigma_i^2}) \\
+		&= -\sum_i(\frac{(x_i^T\beta - y_i)^2}{2\sigma_i^2}-log\frac{1}{2\sigma_i^2}) 
+\end{align*}
+\item{b.}
+From (a) we can see that maximizing $logp(D|\beta,\alpha)$ is essentially minimizing $\sum_i\frac{(x_i^T\beta - y_i)^2}{2\sigma_i^2}$ because we can ignore all constant terms. So let
+\begin{align*}
+    S = \begin{bmatrix}
+			- x_1/\sigma_1 -\\ 
+			- x_2/\sigma_2 -\\ 
+			      :         \\
+			- x_n/\sigma_n -\\ 
+		\end{bmatrix}
+	\ \ \
+    Y = \begin{bmatrix}
+			y_1\\
+			y_2\\
+			:\\
+			y_n\\
+		\end{bmatrix}
+\end{align*}
+Then for $\beta^*$ that minimizes it we have the normal equation
+\begin{align*}
+	S^TS\beta = S^TY
+\end{align*}
+So the optimal $\beta^*$ is thus
+\begin{align*}
+	\beta^* = (S^TS)^{-1}S^TY
+\end{align*}
+\end{problem}
+
+\begin{problem}{2. Linear Regression with Smooth Coeficients}
+\item{a.}
+Adding a smooth coeficient we have the follwing loss function
+\begin{align*}
+		L(\beta) = \sum_i (x_i^T\beta - y_i)^2 + \frac{\sum_i (\beta_{i+1} - \beta_i)^2}{p} + \lambda ||\beta||^2
+\end{align*}
+\def \diffm 
+{\begin{bmatrix}
+		0 & 1 & 0 & ... & 0 & 0\\	
+		-1& 0 & 1 & ... & 0 & 0\\	
+		0 & -1 & 0 & ... & 0 & 0\\	
+		: & : & :  & ... & : & :\\	
+		0 & 0 & 0  & ... & -1 & 0\\	
+\end{bmatrix}}
+\def \bigx
+{\begin{bmatrix}
+	 -x_1-\\
+	 -x_2-\\
+	  : \\
+	 -x_n-\\
+\end{bmatrix}}
+\item{b}
+Taking partial derivatives of $L(\beta)$ we have
+\begin{align*}
+	\frac{\partial L(\beta)}{\partial \beta_j} = 2\sum_i (x_i^T \beta x_{ij} - y_ix_{ij}) + \frac{2}{p} (\beta_{j+1} - \beta_{j-1}) + \lambda 2\beta_j
+\end{align*}
+In matrix form we have
+\begin{align*}
+	\frac{\partial L(\beta)}{\partial \beta} = 2(X^2\beta - Xy + \frac{1}{p} M \beta + \lambda\beta)
+\end{align*}
+where
+\begin{align*}
+	M = \diffm \ \ \ X = \bigx
+\end{align*}
+Thus for the optimal $\beta^*$ we have
+\begin{align*}
+	X^2\beta^* - Xy + \frac{1}{p} M \beta^* + \lambda\beta^* = \textbf{0}
+\end{align*}
+And 
+\begin{align*}
+	\beta^* = (\bigx^2 + \frac{1}{p}\diffm + \lambda I)^{-1}\bigx y
+\end{align*}
+\end{problem}
+
+\begin{problem}{3. Linearly Constrained Linear Regression}
+\item{}
+Add a linearly constrain into normal equation $X^TX\beta = X^Ty$, we have the following system of equations
+\begin{align*}
+	&X^TX\beta = X^Ty\\
+	&A\beta = b
+\end{align*}
+In matrix form, we have
+\begin{align*}
+\begin{bmatrix}
+	X^TX \\
+	A
+\end{bmatrix}
+\beta = 
+\begin{bmatrix}
+	X^Ty \\
+	b
+\end{bmatrix}
+\end{align*}
+Thus 
+\begin{align*}
+\beta = 
+\begin{bmatrix}
+	X^TX \\
+	A
+\end{bmatrix}^{-1}
+\begin{bmatrix}
+	X^Ty \\
+	b
+\end{bmatrix}
+\end{align*}
+\end{problem}
+
+\begin{problem}{4. Onine Learning}
+	For update rule $w^{t+1} = w^t + k$, we want to find the minimal $k$ under the following constrain 
+\begin{align*}
+	& (w^t+k)^Tx_i > 0 \ if \ y_i = +1\\
+	& (w^t+k)^Tx_i < 0 \ if \ y_i = -1
+\end{align*}
+Since by perception learing algorithm, the update won't happen if $k=0$ satisfies the constrain, the minimal solution always happens on the boundry $(w^t + k)^Tx_i = 0$.
+Solving the least norm solution to this system we have $k = -X(X^TX)^{-1}X^Tw$, in which $X$ is a row vector of $x_i$.
+\end{problem}
+
+% --------------------------------------------------------------
+%     You don't have to mess with anything below this line.
+% --------------------------------------------------------------
+ 
+\end{document}
