@@ -1,0 +1,87 @@
+% --------------------------------------------------------------
+% This is all preamble stuff that you don't have to worry about.
+% Head down to where it says "Start here"
+% --------------------------------------------------------------
+ 
+\documentclass[12pt]{article}
+ 
+\usepackage[margin=1in]{geometry} 
+\usepackage{amsmath,amsthm,amssymb}
+ 
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+ 
+\newenvironment{theorem}[2][Theorem]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+
+\newenvironment{lemma}[2][Lemma]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+
+\newenvironment{exercise}[2][Exercise]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+
+\newenvironment{problem}[2][Problem]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2}]}{\end{trivlist}}
+
+\newenvironment{question}[2][Question]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+
+\newenvironment{corollary}[2][Corollary]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries #1}\hskip \labelsep {\bfseries #2.}]}{\end{trivlist}}
+
+\usepackage{graphicx}
+\graphicspath{{./}}
+
+\begin{document}
+ 
+% --------------------------------------------------------------
+%                         Start here
+% --------------------------------------------------------------
+ 
+\title{Homework 5}%replace X with the appropriate number
+\author{Yunzhong He\\ %replace with your name
+204010749} %if necessary, replace with your course title
+ 
+\maketitle
+ 
+\begin{problem}{1. Bias-Variance Tradeoff}
+\def \yy {X^T\hat{\beta_\lambda}}
+\def \ys {X^T\beta^*}
+
+\item{(a)}
+To minimize $\hat{\beta_\lambda}$ we have
+\begin{align*}
+	\frac{d (y-X\beta)'(y-X\beta)}{d \beta} = -2X'y + 2(X'X)^{-1}\beta + 2\lambda\beta = 0
+\end{align*}
+Thus
+\begin{align*}
+	\hat{\beta_\lambda} = (X'X - \lambda I)^{-1}X'y
+\end{align*}
+Plug in $y = \ys + \epsilon$ we have
+\begin{align*}
+	\hat{\beta_\lambda} = (X'X - \lambda I)^{-1}X'(X'\beta^* + \epsilon) = A(\lambda)b + A(\lambda)\epsilon
+\end{align*}
+where A = $(X'X - \lambda I)^{-1}X'$ and b = $X'\beta^*$
+\\\\
+\item{(b)} The bias is thus
+\begin{align*}
+	E[\yy] - \ys = A(\lambda)b + A(\lambda)E(\epsilon) - \ys
+\end{align*}
+\\
+\item{(c)} The variance is thus
+\begin{align*}
+	E[(\yy - E(\yy))^2] = (X'A(\lambda))^2 var(\epsilon)
+\end{align*}
+\item{(d)} From (b) (c) and bias-variance theorem we can see that when $\lambda$ is large, bias dominates the squred errors, and when $\lambda$ is small, bias dominates squared error. 
+\end{problem}
+
+\begin{problem}{2. Kernalized Perception}
+\item{a} Since $\phi(x)$ is linear, we can write $\phi(x_i) = b_1x_{i1} + b_2x_{i2} ,..., b_px_{ip}$, therefore we can write \\
+$ w = \sum_i^N \alpha_i\phi(x_i) = \sum_i^N \alpha_i(\sum_j^{p} b_jx_{ij})$, which is a linear combination of $x$.
+\item{b}
+\end{problem}
+% --------------------------------------------------------------
+%     You don't have to mess with anything below this line.
+% --------------------------------------------------------------
+ 
+\end{document}
