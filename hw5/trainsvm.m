@@ -10,3 +10,17 @@ function [w,b] = trainsvm(train_data, train_label, C)
 %  w: feature vector (column vector)
 %  b: bias term
 %
+    [n, p] = size(train_data);
+    for i = 1:n
+       A(i, :) = train_data(i, :) * train_label(i); 
+    end
+    
+    H = diag([ones(1, n), zeros(1, p+1)]);
+    f = [zeros(1, p), C * ones(1, n), 0]';
+    A = [A, eye(n), zeros(n, 1)];
+    b = ones(n, 1);
+    lb = [ones(n, 1) * 1e10, zeros(n, 1), ones(n, 1) * 1e10];
+    res = quadprog(H, f, -A, -b, [], [], -lb);
+    w = res(1:p, 1);
+    p = res(length(res), 1);
+end
