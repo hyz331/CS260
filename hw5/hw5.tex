@@ -122,6 +122,15 @@ Thus $K_4$ is a symmetric matrix and is therefore positive semi-definite, by Mer
 For any vector $x$, suppose $u = x^TK_1x$ and $v = x^TK_2x$, we know every entries in $u$ and $v$ are non-negative. Also, for $w = x^TK_5x$, we know $x(i) = u(i)v(i)$ because $k_5(x, x') = k_1(x, x')k_2(x, x')$. Thus every entries in $w$ are also non-negative, and $K_5$ is positive semi-definite. By Mercer's theorm $k_5$ is postitive semi-definite.
 \end{problem}
 
+\begin{problem}{4. Soft Margin Hyperplanes}
+\item{(a)} With more general form of soft margin $\xi_i^p$, the dual formulation of optimization objective is thus
+\begin{align*}
+	&min_{\xi^p, w, b} \frac{1}{2}||w||_2^2 + C\sum_n||\xi_n^p||_2^2 \ s.t.\\
+	&\forall n \ y_n[w^T\phi(x_n)+b] \geq 1 - \xi_n^p, \ \ \xi_n^p \geq 0, \ \ p > 1
+\end{align*}
+\item{(b)}
+This more general formulation allows extra degrees of freedom at different dimensions in the choice of $\xi$, so it is able to generate more flexible margins. However, each $\xi_n^p$ now is a p-dimentional vector rather than a real number, making the optimization objective more complex.
+\end{problem}
 % --------------------------------------------------------------
 %     You don't have to mess with anything below this line.
 % --------------------------------------------------------------
