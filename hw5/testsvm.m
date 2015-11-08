@@ -17,5 +17,5 @@ function accu = testsvm(test_data, test_label, w, b)
             num_correct = num_correct + 1;
         end
     end
-    num_correct / size(test_data, 1)
+    accu = num_correct / size(test_data, 1);
 end

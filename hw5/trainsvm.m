@@ -19,8 +19,8 @@ function [w,b] = trainsvm(train_data, train_label, C)
     f = [zeros(1, p), C * ones(1, n), 0]';
     A = [A, eye(n), zeros(n, 1)];
     b = ones(n, 1);
-    lb = [ones(n, 1) * 1e10, zeros(n, 1), ones(n, 1) * 1e10];
-    res = quadprog(H, f, -A, -b, [], [], -lb);
+    %lb = [-inf(p, 1); zeros(n, 1); -inf];
+    res = quadprog(H, f, -A, -b, [], []);
     w = res(1:p, 1);
     p = res(length(res), 1);
 end
