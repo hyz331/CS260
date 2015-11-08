@@ -76,10 +76,52 @@ where A = $(X'X - \lambda I)^{-1}X'$ and b = $X'\beta^*$
 \end{problem}
 
 \begin{problem}{2. Kernalized Perception}
-\item{a} Since $\phi(x)$ is linear, we can write $\phi(x_i) = b_1x_{i1} + b_2x_{i2} ,..., b_px_{ip}$, therefore we can write \\
-$ w = \sum_i^N \alpha_i\phi(x_i) = \sum_i^N \alpha_i(\sum_j^{p} b_jx_{ij})$, which is a linear combination of $x$.
-\item{b}
+\item{(a)} Proof by induction:\\
+(1) At iteration T = 0, we have $w = 0 = \sum_i^N 0\cdot x_i$, and is a linear combination of $x$.\\
+(2) Assume at iteration T = k, $w$ is a linear combination of $x$, then at T = k+1 we have 
+\begin{align*}
+&w_{k+1} = w_k + \phi(x_{k+1}) \ if \ w'\phi(x) > 0\\
+&w_{k+1} = w_k - \phi(x_{k+1}) \ otherwise
+\end{align*}
+In either case $w_{k+1}$ is a linear combination of $\phi(x)$, thus $w$ is always a linear combination of $\phi(x)$.
+\\
+\item{(b)} From the proof in (a) we can see that $w_k$ is actually a linear combination of $\phi(x_1), \phi(x_2), ..., \phi(x_k)$, and the prediction rule at T = k+1 can be written as
+\begin{align*}
+	y &= sign(w_k'\phi(x_{k+1})) = sign(\sum_i^{k} \alpha_i\phi(x_i)'\phi(x_{k+1})) \\
+	  &= sign(\sum_i^{k} \alpha_i<\phi(x_i), \phi(x_{k+1})>)
+\end{align*}
+which only depends on the inner products of the mapping $\phi$.
+\\
+\item{(c)}
+From (b) we know that the perception algorithm can be rewritten as follows.\\
+(1) Initialize $\alpha_0 = 0$\\
+(2) At iteration T = k+1, compute $y$ and update $w$ as follows\\
+\indent val = 0\\
+\indent For i from 1 to k\\
+\indent \indent val = val + $\alpha_i <\phi(x_i), \phi(x_{k+1})>$\\
+\indent end\\
+\indent $y = sign(val)$\\
+\indent $w = w + y\phi(x_{k+1})$\\
 \end{problem}
+
+\begin{problem}{3. Kernels}
+\item{(a)}
+Since $K_1$ $K_2$ are positive semi-definite, we have $x^TK_1x$ and $x^TK_2x$ being non-negative at every entry for any vector $x$. Therefore we have
+\begin{align*}
+x^TK_3x = x^T(a_1K_1 + a_2K_2)x = a_1x^TK_1x + a_2x^TK_2x
+\end{align*}
+Since $a_1 \geq 0$ and $a_2 \geq 0$, we know every entry in $x^TK_3x$ is non-negative as well. Thus $K_3$ is positive semi-definite, and by Mercer's theorm so is $k_3$.
+\\
+\item{(b)} 
+For every entry $K_4(i, j)$ of $K_4$, we know
+\begin{align*}
+K_4(i, j) = f(x_i)f(x_j) = f(x_j)f(x_i) = K_4(j, i)
+\end{align*}
+Thus $K_4$ is a symmetric matrix and is therefore positive semi-definite, by Mercer's theorm so is $k_4$
+\item{(c)}
+For any vector $x$, suppose $u = x^TK_1x$ and $v = x^TK_2x$, we know every entries in $u$ and $v$ are non-negative. Also, for $w = x^TK_5x$, we know $x(i) = u(i)v(i)$ because $k_5(x, x') = k_1(x, x')k_2(x, x')$. Thus every entries in $w$ are also non-negative, and $K_5$ is positive semi-definite. By Mercer's theorm $k_5$ is postitive semi-definite.
+\end{problem}
+
 % --------------------------------------------------------------
 %     You don't have to mess with anything below this line.
 % --------------------------------------------------------------
