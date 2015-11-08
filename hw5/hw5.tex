@@ -131,6 +131,27 @@ For any vector $x$, suppose $u = x^TK_1x$ and $v = x^TK_2x$, we know every entri
 \item{(b)}
 This more general formulation allows extra degrees of freedom at different dimensions in the choice of $\xi$, so it is able to generate more flexible margins. However, each $\xi_n^p$ now is a p-dimentional vector rather than a real number, making the optimization objective more complex.
 \end{problem}
+
+\begin{problem}{5. Programming}
+\item{5.1}
+The 10th feature's mean is \textbf{2.527} and standard deviation is \textbf{1.1245}. We estimate the mean and standard deviation from training data because the goal is to normalize the training data, and it does not matter whether it is a good estimate to the real distribution or not.
+\item{5.3 (a)}
+The cross-validation accuracy for different C can be found below
+\begin{center}
+	C     \:\: accu\\
+	$4^{-6}$ \: 0.659\\
+	$4^{-5}$ \: 0.659\\
+	$4^{-4}$ \: 0.659\\
+	$4^{-3}$ \: 0.659\\
+	$4^{-2}$ \: 0.673\\
+	$4^{-1}$ \: 0.725\\
+	$4^{-0}$ \: 0.802\\
+	$4^1$ \:\:\:  0.837\\
+	$4^2$ \:\:\:  0.841\\
+\end{center}
+\item{5.3 (b) (c)}
+Based on 5.3 we shoud use \textbf{C = 16}, and the corresponding test accuracy is \textbf{0.852}
+\end{problem}
 % --------------------------------------------------------------
 %     You don't have to mess with anything below this line.
 % --------------------------------------------------------------
