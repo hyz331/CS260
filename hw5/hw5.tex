@@ -151,6 +151,65 @@ The cross-validation accuracy for different C can be found below
 \end{center}
 \item{5.3 (b) (c)}
 Based on 5.3 we shoud use \textbf{C = 16}, and the corresponding test accuracy is \textbf{0.852}
+\item{5.4 (a) (b)}
+Running linear SVM with libSVM with different C we obtained the following results, with average training time \textbf{1.13} seconds, which is around 10 times faster than my implementation in 5.3. This proves the efficiency of dual form SVM, but it could also due to some other performance optimizations that libSVM have. 
+\begin{center}
+\begin{tabular}{ l | r}
+    C &  accuracy\\
+    $4^{-6}$  & 51.70000\\
+    $4^{-5}$  & 51.70000\\
+    $4^{-4}$  & 51.70000\\
+    $4^{-3}$  & 51.70000\\
+    $4^{-2}$  & 58.40000\\
+    $4^{-1}$  & 83.50000\\
+    $4^{-0}$  & 87.20000\\
+    $4^{1}$  & 88.50000\\
+    $4^{2}$  & 88.20000\\
+\end{tabular}
+\end{center}
+
+\item{5.5 (a)}
+Running polynomial SVM using libSVM with different degree and C, we obtained the following 5-fold cross-validation accuracies, with average training time \textbf{9.24} seconds.
+\begin{center}
+\begin{tabular}{ l | c | r }
+    degree &   C  &  accuracy\\
+    1.00000 &  $4^{-3}$  & 51.70000\\
+    1.00000 &  $4^{-2}$  & 78.70000\\
+    1.00000 &  $4^{-1}$  & 80.40000\\
+    1.00000  &  $4^{0}$  & 79.50000\\
+    1.00000  &  $4^{1}$ & 79.20000\\
+    1.00000  &  $4^{2}$ & 79.50000\\
+    1.00000  &  $4^{3}$ & 79.40000\\
+    1.00000  &  $4^{4}$ & 79.30000\\
+    1.00000  &  $4^{5}$ & 79.20000\\
+    1.00000  &  $4^{6}$ &79.30000\\
+    1.00000  &  $4^{7}$ & 78.80000\\
+    2.00000  & $4^{-3}$ & 51.70000\\
+    2.00000  & $4^{-2}$ & 51.70000\\
+    2.00000  & $4^{-1}$ & 65.40000\\
+    2.00000  &  $4^{0}$ & 72.80000\\
+    2.00000  &  $4^{1}$ &70.90000\\
+\end{tabular}
+\begin{tabular}{ l | c | r }
+    2.00000  &  $4^{2}$ & 70.90000\\
+    2.00000  &  $4^{3}$ & 70.90000\\
+    2.00000  &  $4^{4}$ & 70.90000\\
+    2.00000  &  $4^{5}$ & 70.90000\\
+    2.00000  &  $4^{6}$  &70.90000\\
+    2.00000  &  $4^{7}$  &70.90000\\
+    3.00000  & $4^{-3}$  &51.70000\\
+    3.00000  & $4^{-2}$  &51.70000\\
+    3.00000  & $4^{-1}$ & 62.10000\\
+    3.00000  &  $4^{0}$  &79.20000\\
+    3.00000  &  $4^{1}$ & 79.00000\\
+    3.00000  &  $4^{2}$  &79.20000\\
+    3.00000  &  $4^{3}$  &79.20000\\
+    3.00000  &  $4^{4}$  &79.20000\\
+    3.00000  &  $4^{5}$  &79.20000\\
+    3.00000  &  $4^{6}$  &79.20000\\
+    3.00000  &  $4^{7}$ & 79.20000\\
+\end{tabular}
+\end{center}
 \end{problem}
 % --------------------------------------------------------------
 %     You don't have to mess with anything below this line.
