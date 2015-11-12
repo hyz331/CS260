@@ -156,18 +156,18 @@ The 10th feature's mean is \textbf{2.527} and standard deviation is \textbf{1.12
 The cross-validation accuracy for different C can be found below
 \begin{center}
 	C     \:\: accu \:\: training time\\
-	$4^{-6}$ \: 0.659 \: 1.94s\\
-	$4^{-5}$ \: 0.648 \: 2.02s\\
-	$4^{-4}$ \: 0.664 \: 1.93s\\
-	$4^{-3}$ \: 0.659 \: 1.94s\\
-	$4^{-2}$ \: 0.673 \: 1.9s\\
-	$4^{-1}$ \: 0.725 \: 2.08s\\
-	$4^{-0}$ \: 0.792 \: 2.23s\\
-	$4^1$ \:\:\:  0.817 \: 2.39s\\
-	$4^2$ \:\:\:  0.831 \: 2.38s\\
+	$4^{-6}$ \: 0.801 \: 1.94s\\
+	$4^{-5}$ \: 0.827 \: 2.02s\\
+	$4^{-4}$ \: 0.804 \: 1.93s\\
+	$4^{-3}$ \: 0.817 \: 1.94s\\
+	$4^{-2}$ \: 0.789 \: 1.9s\\
+	$4^{-1}$ \: 0.806 \: 2.08s\\
+	$4^{-0}$ \: 0.820 \: 2.23s\\
+	$4^1$ \:\:\:  0.815 \: 2.39s\\
+	$4^2$ \:\:\:  0.805 \: 2.38s\\
 \end{center}
 \item{5.3 (b) (c)}
-Based on 5.3 we shoud use \textbf{C = 16}, and the corresponding test accuracy is \textbf{0.842}.
+Based on 5.3 we shoud use C = $4^{-5}$, and the corresponding test accuracy is \textbf{0.842}.
 \item{5.4 (a) (b)}
 Running linear SVM with libSVM with different C we obtained the following results, with average training time \textbf{1.03} seconds, which is around 2.03 times faster than my implementation in 5.3. This proves the efficiency of dual form SVM, but it could also due to some other performance optimizations that libSVM have. 
 \begin{center}

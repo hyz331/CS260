@@ -22,5 +22,5 @@ function [w,b] = trainsvm(train_data, train_label, C)
     %lb = [-inf(p, 1); zeros(n, 1); -inf];
     res = quadprog(H, f, -A, -b, [], []);
     w = res(1:p, 1);
-    p = res(length(res), 1);
+    b = res(length(res), 1);
 end
